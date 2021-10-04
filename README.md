@@ -3,16 +3,41 @@
 
 > https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/
 
-Install NGinx Ingress:
+* Pre-Requisites:
 
-```Shell
-helm install my-release nginx-stable/nginx-ingress
-kubectl delete svc my-release-nginx-ingress
-kubectl expose deployment my-release-nginx-ingress --type NodePort --port=80
-```
+    ```Shell
+    # Start a cluster with Kind
+    kind cluster create
+    ```
 
-Uninstall NGinx Ingress:
+* Install NGinx Ingress:
 
-```Shell
-helm uninstall my-release
-```
+    ```Shell
+    kubectl create namespace nginx-ingress
+    helm install my-release nginx-stable/nginx-ingress --namespace nginx-ingress
+    kubectl patch svc my-release-nginx-ingress --namespace nginx-ingress -p '{"spec": {"type": "NodePort"}}'
+
+    SERVICE_IP=$(kubectl get nodes -o wide -o jsonpath='{.items[].status.addresses[].address}')
+    SERVICE_PORT=$(kubectl get svc --namespace nginx-ingress my-release-nginx-ingress -o jsonpath='{.spec.ports[].nodePort}')
+
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
+    ```
+
+* Install Sample Web application:
+
+    ```Shell
+    helm install sample-nginx-release bitnami/nginx
+    kubectl patch svc sample-nginx-release --namespace default -p '{"spec": {"type": "NodePort"}}'
+
+    SERVICE_IP=$(kubectl get nodes -o wide -o jsonpath='{.items[].status.addresses[].address}')
+    SERVICE_PORT=$(kubectl get svc --namespace default sample-nginx-release -o jsonpath='{.spec.ports[].nodePort}')
+
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
+    ```
+
+* Clean-up:
+
+    ```Shell
+    helm uninstall sample-nginx-release --namespace default
+    kubectl delete namespace nginx-ingress
+    ```

@@ -1,16 +1,39 @@
+# Argo CD automation starter
 
-# NGinx Ingress for Kubernetes
+## Pre-requisites
 
-> https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/
+* Kubernetes cluster
 
-* Pre-Requisites:
+* [Argo CD CLI](https://argo-cd.readthedocs.io/en/stable/getting_started/#2-download-argo-cd-cli)
+
+## Getting Started
+
+1. Install Argo CD
 
     ```Shell
-    # Start a cluster with Kind
-    kind cluster create
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f argo-cd/install.yaml
+
+    # Access The Argo CD API Server
+    kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+    kubectl port-forward svc/argocd-server -n argocd 8080:443 > /dev/null 2>&1 &
+
+    # Login Using The CLI
+    PWD=$( kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d )
+    argocd login localhost:8080 --username admin --password $PWD --insecure
+
+    # Change initial admin password and remove secret from cluster
+    argocd account update-password --current-password $PWD --new-password ChangeMe --insecure
+    kubectl -n argocd delete secret argocd-initial-admin-secret
     ```
 
-* Install NGinx Ingress:
+## Argo CD Automation
+
+TODO ...
+
+<!--
+
+1. Install NGinx Ingress
 
     ```Shell
     kubectl create namespace nginx-ingress
@@ -23,7 +46,7 @@
     echo "http://${SERVICE_IP}:${SERVICE_PORT}"
     ```
 
-* Install Sample Web application:
+1. Install Sample Web application
 
     ```Shell
     helm install sample-nginx-release bitnami/nginx
@@ -35,9 +58,13 @@
     echo "http://${SERVICE_IP}:${SERVICE_PORT}"
     ```
 
-* Clean-up:
+1. Clean-up
 
     ```Shell
     helm uninstall sample-nginx-release --namespace default
     kubectl delete namespace nginx-ingress
-    ```
+    ``` -->
+
+## References
+
+*[Nginx Ingress Controller installation with Helm](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)

@@ -18,6 +18,8 @@
       "dexconfig",
       "dexidp",
       "entrypoint",
+      "finalizer",
+      "finalizers",
       "grpc",
       "healthz",
       "jsonnet",
@@ -38,6 +40,7 @@
       "staticassets",
       "subresources",
       "templating",
-      "tlas"
+      "tlas",
+      "yamls"
     ]
 }

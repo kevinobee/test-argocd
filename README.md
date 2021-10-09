@@ -29,6 +29,13 @@
 
 ## Argo CD Automation
 
+1. Configure Argo CD Production application and project
+
+    ```Shell
+    kubectl apply -f project.yaml
+    kubectl apply -f apps.yaml
+    ```
+
 TODO ...
 
 <!--

@@ -74,4 +74,4 @@ TODO ...
 
 ## References
 
-*[Nginx Ingress Controller installation with Helm](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
+* [Nginx Ingress Controller installation with Helm](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)

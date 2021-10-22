@@ -42,6 +42,7 @@
       "staticassets",
       "subresources",
       "templating",
-      "tlas"
+      "tlas",
+      "upsert"
     ]
 }

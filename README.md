@@ -37,7 +37,49 @@
     kubectl apply -f apps.yaml
     ```
 
-TODO ...
+### Manual Installation
+
+To create the
+
+1. Prometheus
+
+    ```Shell
+    kubectl create namespace monitoring
+    
+    argocd app create prometheus --repo https://github.com/prometheus-community/helm-charts.git --path charts/prometheus --dest-server https://kubernetes.default.svc --dest-namespace monitoring --project production --upsert --revision HEAD --self-heal --sync-policy automated --sync-option Prune=true --auto-prune
+    ```
+
+<!-- TODO ...
+
+```Shell
+export BASE_HOST=$(kubectl get nodes -o jsonpath='{.items[].status.addresses[].address}')
+echo $BASE_HOST
+
+kustomize build \
+    argo-cd/overlays/production \
+    | kubectl apply --filename -
+
+kubectl --namespace argocd \
+    rollout status \
+    deployment argocd-server
+
+export PASS=$(kubectl \
+    --namespace argocd \
+    get secret argocd-initial-admin-secret \
+    --output jsonpath="{.data.password}" \
+    | base64 --decode)
+
+argocd login \
+    --insecure \
+    --username admin \
+    --password $PASS \
+    --grpc-web \
+    argo-cd.$BASE_HOST
+
+argocd account update-password \
+    --current-password $PASS \
+    --new-password admin123
+``` -->
 
 <!--
 

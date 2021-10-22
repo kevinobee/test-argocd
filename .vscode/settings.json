@@ -42,7 +42,6 @@
       "staticassets",
       "subresources",
       "templating",
-      "tlas",
-      "yamls"
+      "tlas"
     ]
 }

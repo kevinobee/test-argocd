@@ -9,7 +9,7 @@ spec:
   project: production
   source:
     repoURL: https://github.com/kevinobee/test-argocd.git
-    targetRevision: HEAD
+    targetRevision: monitoring
     path: production
   destination:
     server: https://kubernetes.default.svc

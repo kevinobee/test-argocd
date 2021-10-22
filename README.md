@@ -13,6 +13,7 @@
     ```Shell
     kubectl create namespace argocd
     kubectl apply -n argocd -f argo-cd/install.yaml
+    kubectl --namespace argocd rollout status deployment argocd-server
 
     # Access The Argo CD API Server
     kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'

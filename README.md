@@ -39,13 +39,13 @@
 
 ### Manual Installation
 
-To create the
+To create services manually from the command line use the following commands:
 
 1. Prometheus
 
     ```Shell
     kubectl create namespace monitoring
-    
+
     argocd app create prometheus --repo https://github.com/prometheus-community/helm-charts.git --path charts/prometheus --dest-server https://kubernetes.default.svc --dest-namespace monitoring --project production --upsert --revision HEAD --self-heal --sync-policy automated --sync-option Prune=true --auto-prune
     ```
 

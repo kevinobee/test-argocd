@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx-ingress
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress
+spec:
+  destination:
+    name: ''
+    namespace: nginx-ingress
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://charts.helm.sh/stable'
+    targetRevision: 1.41.3
+    chart: nginx-ingress
+  project: production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
